@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkillBridge - Dashboard</title>
+  <link rel="stylesheet" href="css/style.css?v=2">
+</head>
+<body>
+  <nav class="navbar" style="border-bottom: 1px solid var(--border-color); background: var(--nav-bg); padding: 1rem 4rem;">
+    <a href="index.html" class="logo" style="color: var(--text-heading); font-weight: 800; font-size: 1.5rem; text-decoration: none;">SkillBridge</a>
+    <button class="theme-toggle btn btn-secondary" style="padding: 0.5rem 1rem; border:1px solid var(--border-color); background:transparent; color:var(--text-color);">Toggle</button>
+  </nav>
+
+  <main class="container py-8 fade-in">
+    <div class="text-center mb-8">
+      <h2 id="career-title">Your Dashboard</h2>
+      <p class="mt-2">Here is your skill analysis and customized roadmap.</p>
+    </div>
+
+    <div class="grid grid-cols-3 mb-8">
+      <div class="card text-center" style="display:flex; flex-direction:column; justify-content:center; align-items:center;">
+        <h3 style="font-size: 1.5rem; color: var(--text-color); margin-bottom: 0.5rem;">Match Score</h3>
+        <div class="match-score mt-4" id="match-score" style="font-size: 5rem; font-weight: 800; background: linear-gradient(to right, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1;">0%</div>
+        <p id="analysis-summary" style="margin-top: 1rem; color: var(--text-light); font-weight: 500;"></p>
+      </div>
+
+      <div class="card text-center" style="display:flex; flex-direction:column; justify-content:center; align-items:center;">
+        <h3 style="font-size: 1.5rem; color: var(--text-color); margin-bottom: 0.5rem;">Productivity Score</h3>
+        <div class="match-score mt-4" id="productivity-score" style="font-size: 5rem; font-weight: 800; background: linear-gradient(to right, #10b981, #34d399); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1;">0%</div>
+        <p style="margin-top: 1rem; color: var(--text-light); font-weight: 500;">Based on tool proficiency & impact.</p>
+      </div>
+
+      <div class="card" style="display: flex; flex-direction: column; gap: 1rem;">
+        <h3 style="font-size: 1.25rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">Skill Breakdown</h3>
+        <div>
+          <p style="color: #10b981; font-weight: 600; margin-bottom: 0.25rem;">✓ Strong Skills</p>
+          <p id="strong-count" style="font-size: 0.875rem; color: var(--text-color);"></p>
+        </div>
+        <div>
+          <p style="color: #f59e0b; font-weight: 600; margin-bottom: 0.25rem;">◐ Developing Skills</p>
+          <p id="developing-count" style="font-size: 0.875rem; color: var(--text-color);"></p>
+        </div>
+        <div>
+          <p style="color: #ef4444; font-weight: 600; margin-bottom: 0.25rem;">✗ Missing Skills</p>
+          <p id="missing-count" style="font-size: 0.875rem; color: var(--text-color);"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-8">
+      <h3 class="mb-4" style="font-size: 1.5rem;">Your Actionable Roadmap</h3>
+      <p style="color: var(--text-light); margin-bottom: 1.5rem;">We've prioritized these skills based on industry importance. Focus on high-priority missing skills first.</p>
+      <div id="roadmap-list" style="display: flex; flex-direction: column; gap: 1rem;">
+        <!-- Generated via JS -->
+      </div>
+    </div>
+
+    <div class="text-center">
+      <button id="btn-restart" class="btn btn-secondary" style="background: transparent; color: var(--text-color); border: 1px solid var(--border-color);">Start Over</button>
+    </div>
+  </main>
+
+  <script src="js/data.js?v=3"></script>
+  <script src="js/app.js?v=3"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const career = window.App.getSelectedCareer();
+      if (!career) {
+        window.location.href = 'careers.html';
+        return;
+      }
+
+      document.getElementById('career-title').textContent = `Dashboard: ${career.title}`;
+      
+      const analysis = window.App.analyze();
+      
+      document.getElementById('match-score').textContent = `${analysis.matchPercentage}%`;
+      document.getElementById('productivity-score').textContent = `${analysis.productivityScore}%`;
+      
+      let summaryText = "You're just starting out. Focus on the high-priority missing skills.";
+      if (analysis.matchPercentage > 80) summaryText = "Excellent! You are highly qualified for this role.";
+      else if (analysis.matchPercentage > 50) summaryText = "You're on the right track! A little more study and you'll be ready.";
+      
+      document.getElementById('analysis-summary').textContent = summaryText;
+      
+      document.getElementById('strong-count').textContent = analysis.strong.map(s => s.name).join(', ') || 'None yet';
+      document.getElementById('developing-count').textContent = analysis.developing.map(s => s.name).join(', ') || 'None';
+      document.getElementById('missing-count').textContent = analysis.missing.map(s => s.name).join(', ') || 'None';
+      
+      const roadmapList = document.getElementById('roadmap-list');
+      if (analysis.roadmap.length === 0) {
+        roadmapList.innerHTML = '<div style="padding: 1rem; background: #ecfdf5; color: #065f46; border-radius: 8px;">You are fully prepared! No further skills required.</div>';
+      } else {
+        analysis.roadmap.forEach((item, index) => {
+          const div = document.createElement('div');
+          div.style.padding = '1.5rem';
+          div.style.background = 'var(--bg-color)';
+          div.style.border = '1px solid var(--border-color)';
+          div.style.borderRadius = '8px';
+          
+          let borderCol = 'var(--primary)';
+          if (item.priority === 'high') borderCol = 'var(--danger)';
+          else if (item.priority === 'medium') borderCol = 'var(--warning)';
+          else borderCol = 'var(--success)';
+          
+          div.style.borderLeft = `4px solid ${borderCol}`;
+          
+          div.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <strong style="font-size: 1.1rem; color: var(--text-heading);">Step ${index + 1}: ${item.skill}</strong>
+              <span class="badge ${item.priority}" style="font-size: 0.75rem;">${item.priority.toUpperCase()} PRIORITY</span>
+            </div>
+            <p style="margin-bottom: 0.5rem; color: var(--text-color); font-weight: 500;">Action: ${item.action}</p>
+            <div style="display: flex; gap: 1.5rem; font-size: 0.875rem; color: var(--text-light);">
+              <span>⏳ <strong>Time Estimate:</strong> ${item.timeEstimate}</span>
+              <span>📚 <strong>Resources:</strong> ${item.resources.join(', ')}</span>
+            </div>
+          `;
+          roadmapList.appendChild(div);
+        });
+      }
+
+      document.getElementById('btn-restart').addEventListener('click', () => {
+        window.App.clearData();
+        window.location.href = 'index.html';
+      });
+    });
+  </script>
+</body>
+</html>

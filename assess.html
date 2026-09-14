@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkillBridge - Assess Skills</title>
+  <link rel="stylesheet" href="css/style.css?v=2">
+</head>
+<body>
+  <nav class="navbar" style="border-bottom: 1px solid var(--border-color); background: var(--nav-bg); padding: 1rem 4rem;">
+    <a href="index.html" class="logo" style="color: var(--text-heading); font-weight: 800; font-size: 1.5rem; text-decoration: none;">SkillBridge</a>
+    <button class="theme-toggle btn btn-secondary" style="padding: 0.5rem 1rem; border:1px solid var(--border-color); background:transparent; color:var(--text-color);">Toggle</button>
+  </nav>
+
+  <main class="container py-8 fade-in">
+    <div class="text-center mb-8">
+      <h2 id="career-title">Assess Your Skills</h2>
+      <p class="mt-2">Rate your proficiency from 1 (Novice) to 5 (Expert).</p>
+    </div>
+
+    <div class="card" style="max-width: 800px; margin: 0 auto;">
+      <div id="skills-list" class="skill-list">
+        <!-- Generated via JS -->
+      </div>
+      
+      <div class="mt-8 text-center">
+        <button id="btn-results" class="btn">See Results</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/data.js?v=3"></script>
+  <script src="js/app.js?v=3"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const career = window.App.getSelectedCareer();
+      if (!career) {
+        window.location.href = 'careers.html';
+        return;
+      }
+
+      document.getElementById('career-title').textContent = `Assess: ${career.title}`;
+      
+      const skillsList = document.getElementById('skills-list');
+      const existingRatings = window.App.getRatings() || {};
+      const ratings = { ...existingRatings };
+
+      career.skills.forEach(skill => {
+        if (!ratings[skill.id]) ratings[skill.id] = 0;
+        const currentVal = ratings[skill.id];
+
+        const item = document.createElement('div');
+        item.className = 'skill-item';
+        
+        const labels = ['1 (Beginner)', '2 (Basic)', '3 (Intermediate)', '4 (Advanced)', '5 (Expert)'];
+        let starsHtml = '';
+        for(let i=1; i<=5; i++) {
+          const activeClass = i <= currentVal ? 'active' : '';
+          starsHtml += `<div class="rating-btn ${activeClass}" data-skill="${skill.id}" data-val="${i}" title="${labels[i-1]}">${i}</div>`;
+        }
+
+        item.innerHTML = `
+          <div>
+            <strong style="font-size: 1.125rem;">${skill.name}</strong>
+            <span class="badge ${skill.importance} ml-2">${skill.importance} priority</span>
+          </div>
+          <div style="display:flex; flex-direction:column; align-items:flex-end;">
+            <div class="rating-group" id="rating-${skill.id}">
+              ${starsHtml}
+            </div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem; width: 100%; display: flex; justify-content: space-between; max-width: 250px;">
+              <span>Beginner</span>
+              <span>Expert</span>
+            </div>
+          </div>
+        `;
+        skillsList.appendChild(item);
+      });
+
+      // Handle rating clicks
+      skillsList.addEventListener('click', (e) => {
+        if(e.target.classList.contains('rating-btn')) {
+          const skillId = e.target.getAttribute('data-skill');
+          const val = parseInt(e.target.getAttribute('data-val'));
+          
+          ratings[skillId] = val;
+          
+          const group = document.getElementById(`rating-${skillId}`);
+          group.querySelectorAll('.rating-btn').forEach(btn => {
+            if(parseInt(btn.getAttribute('data-val')) <= val) {
+              btn.classList.add('active');
+            } else {
+              btn.classList.remove('active');
+            }
+          });
+        }
+      });
+
+      document.getElementById('btn-results').addEventListener('click', () => {
+        window.App.saveRatings(ratings);
+        window.location.href = 'dashboard.html';
+      });
+    });
+  </script>
+</body>
+</html>

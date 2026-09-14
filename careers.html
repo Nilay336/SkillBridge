@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkillBridge - Choose a Career</title>
+  <link rel="stylesheet" href="css/style.css?v=2">
+</head>
+<body>
+  <nav class="navbar" style="border-bottom: 1px solid var(--border-color); background: var(--nav-bg); padding: 1rem 4rem;">
+    <a href="index.html" class="logo" style="color: var(--text-heading); font-weight: 800; font-size: 1.5rem; text-decoration: none;">SkillBridge</a>
+    <button class="theme-toggle btn btn-secondary" style="padding: 0.5rem 1rem; border:1px solid var(--border-color); background:transparent; color:var(--text-color);">Toggle</button>
+  </nav>
+
+  <main class="container py-8 fade-in">
+    <div class="text-center mb-8">
+      <h2>Explore Careers</h2>
+      <p class="mt-2">Select a career path to evaluate your skills.</p>
+    </div>
+
+    <div class="grid grid-cols-3" id="careers-grid">
+      <!-- Generated via JS -->
+    </div>
+  </main>
+
+  <script src="js/data.js?v=3"></script>
+  <script src="js/app.js?v=3"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const grid = document.getElementById('careers-grid');
+      window.AppData.careers.forEach(career => {
+        const card = document.createElement('div');
+        card.className = 'card clickable';
+        card.innerHTML = `
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">${career.icon}</div>
+          <h3 class="mb-4">${career.title}</h3>
+          <p>${career.description}</p>
+        `;
+        card.addEventListener('click', () => {
+          window.App.saveSelectedCareer(career.id);
+          window.location.href = 'assess.html';
+        });
+        grid.appendChild(card);
+      });
+    });
+  </script>
+</body>
+</html>

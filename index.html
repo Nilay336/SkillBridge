@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkillBridge - Find Your Path</title>
+  <link rel="stylesheet" href="css/style.css?v=2">
+  <style>
+    .hero-section {
+      background: var(--hero-bg);
+      border-bottom: 1px solid var(--border-color);
+      padding: 6rem 1rem;
+      overflow: hidden;
+    }
+    .hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .hero-title {
+      font-size: 4rem;
+      font-weight: 800;
+      line-height: 1.1;
+      color: var(--text-heading);
+      letter-spacing: -0.025em;
+      margin-bottom: 1.5rem;
+    }
+    .hero-title span {
+      background: linear-gradient(to right, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: var(--text-light);
+      margin-bottom: 2.5rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 4rem;
+    }
+    .btn-hero {
+      font-size: 1.125rem;
+      padding: 1rem 2rem;
+      font-weight: 600;
+    }
+    .btn-hero-outline {
+      background: transparent;
+      border: 2px solid var(--border-color);
+      color: var(--text-color);
+    }
+    .btn-hero-outline:hover {
+      background: var(--card-bg);
+      transform: translateY(-2px);
+    }
+    .hero-mockup {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      transform: perspective(1000px) rotateX(2deg);
+      transition: transform 0.5s ease;
+    }
+    .hero-mockup:hover {
+      transform: perspective(1000px) rotateX(0deg) translateY(-5px);
+    }
+    .mockup-header {
+      background: var(--card-bg);
+      padding: 1rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      gap: 0.5rem;
+    }
+    .mockup-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #cbd5e1;
+    }
+    .mockup-body {
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 2rem;
+      text-align: left;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      padding: 4rem 1rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .feature-card {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      text-align: left;
+    }
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--secondary);
+      background: linear-gradient(to right, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar" style="border-bottom: 1px solid var(--border-color); background: var(--card-bg); padding: 1rem 4rem;">
+    <a href="index.html" class="logo" style="color: var(--text-heading); font-weight: 800; font-size: 1.5rem; text-decoration: none;">SkillBridge</a>
+    <div style="display:flex; gap:1rem; align-items:center;">
+      <button class="theme-toggle btn btn-secondary" style="padding: 0.5rem 1rem; border:1px solid var(--border-color); background:transparent; color:var(--text-color);">Toggle</button>
+      <a href="careers.html" class="btn">Get Started</a>
+    </div>
+  </nav>
+
+  <main class="fade-in">
+    <section class="hero-section text-center">
+      <div class="hero-content">
+        <h1 class="hero-title">Know Your Career.<br><span>Build Your Skills.</span></h1>
+        <p class="hero-subtitle">
+          Stop guessing what employers want. Assess your current skills against real industry requirements and get a personalized, actionable roadmap to land your dream job.
+        </p>
+        <div class="hero-actions">
+          <a href="careers.html" class="btn btn-hero">Analyze My Skills</a>
+          <a href="#features" class="btn btn-hero btn-hero-outline">How it works</a>
+        </div>
+      </div>
+
+      <!-- Dashboard Mockup -->
+      <div class="hero-mockup">
+        <div class="mockup-header">
+          <div class="mockup-dot" style="background:#f87171"></div>
+          <div class="mockup-dot" style="background:#fbbf24"></div>
+          <div class="mockup-dot" style="background:#34d399"></div>
+        </div>
+        <div class="mockup-body">
+          <div>
+            <h3 style="color: var(--text-heading); margin-bottom:1rem; font-size:1.5rem;">Match Score</h3>
+            <div style="font-size:4rem; font-weight:800; background: linear-gradient(to right, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height:1;">78%</div>
+            <p style="color: var(--text-light); margin-top:0.5rem;">Data Analyst</p>
+          </div>
+          <div>
+            <h3 style="color: var(--text-heading); margin-bottom:1rem; font-size:1.25rem;">Next Steps</h3>
+            <div style="background:var(--hero-bg); padding:1rem; border-radius:8px; border:1px solid var(--border-color); margin-bottom:0.5rem; border-left:4px solid #4f46e5;">
+              <strong>1. Advanced SQL</strong> (Priority: High)
+            </div>
+            <div style="background:var(--hero-bg); padding:1rem; border-radius:8px; border:1px solid var(--border-color); border-left:4px solid #cbd5e1;">
+              <strong>2. Data Visualization</strong> (Priority: Medium)
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="container">
+      <div class="text-center" style="margin-top: 4rem;">
+        <h2 style="font-size: 2.5rem; color: var(--text-heading);">How SkillBridge Works</h2>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">1</div>
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--text-heading);">Choose Your Path</h3>
+          <p style="color: var(--text-light);">Browse through top tech and design careers. See exactly what skills are required by the industry.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">2</div>
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--text-heading);">Assess Your Level</h3>
+          <p style="color: var(--text-light);">Honestly rate your proficiency in each required skill from Novice to Expert using our intuitive tool.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">3</div>
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--text-heading);">Get Your Roadmap</h3>
+          <p style="color: var(--text-light);">Our algorithm identifies your exact skill gaps and builds a prioritized, step-by-step learning plan.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
